@@ -1,0 +1,19 @@
+{
+  "name": "techdegree_project8_sqllibrarymanager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mattrudin/techdegree_project8_sqlLibraryManager.git"
+  },
+  "author": "Matt Rudin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mattrudin/techdegree_project8_sqlLibraryManager/issues"
+  },
+  "homepage": "https://github.com/mattrudin/techdegree_project8_sqlLibraryManager#readme"
+}
