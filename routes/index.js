@@ -1,5 +1,9 @@
+/************************************************************************************
+Require functions
+************************************************************************************/
 const express = require('express');
 const router = express.Router();
+const Book = require("../models").Book;
 
 /************************************************************************************
 Routes
@@ -11,19 +15,20 @@ router.get('/', (req, res) => {
 
 // Shows the full list of books.
 router.get('/books', (req, res) => {
-    res.render('index', {title: "Books"});
+    Book.findAll({order: [['title']]}).then((books) => {
+        res.render('index', {books: books, title: "Books" });
+      })
 })
 // Shows the create new book form.
 router.get('/books/new', (req, res) => {
-    res.render(
-        'new-book'
-    );
+    res.render('new-book',{
+        book: Book.build(),
+        title: "New book"
+    });
 })
 // Posts a new book to the database.
 router.post('/books/new', (req, res) => {
-    res.render(
-        'new-book'
-    );
+    Book.create(req.body).then(article => res.redirect(`/books/${book.id}`));
 })
 // Shows book detail form.
 router.get('/books/:id', (req, res) => {
