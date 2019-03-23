@@ -4,6 +4,7 @@ Require functions
 const express = require('express');
 const app = express();
 const routes = require('./routes');
+const sequelize = require('./models').sequelize
 
 /************************************************************************************
 Configuration
@@ -41,8 +42,10 @@ app.use((err, req, res, next) => {
 
 
 /************************************************************************************
-Server setup
+Server and database startup
 ************************************************************************************/
-const server = app.listen(3000, () => {
-    console.log(`The application is running on localhost:${server.address().port}`)
+sequelize.sync().then(() => {
+    const server = app.listen(3000, () => {
+        console.log(`The application is running on localhost:${server.address().port}`)
+    });
 });
