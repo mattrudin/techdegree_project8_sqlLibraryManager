@@ -9,12 +9,12 @@ const Book = require("../models").Book;
 Routes
 ************************************************************************************/
 // Home route should redirect to the /books route. -- DONE
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
     return res.redirect('/books');
 });
 
 // Shows the full list of books. -- DONE
-router.get('/books', (req, res) => {
+router.get('/books', (req, res, next) => {
     Book.findAll({order: [['title']]}).then(books => {
         res.render('index', {books: books, title: "Books" });
       }).catch(error => {
@@ -22,14 +22,14 @@ router.get('/books', (req, res) => {
      });
 })
 // Shows the create new book form. -- DONE
-router.get('/books/new', (req, res) => {
+router.get('/books/new', (req, res, next) => {
     res.render('new-book',{
         book: Book.build(),
         title: "New Book"
     })
 })
-// Posts a new book to the database.
-router.post('/books/new', (req, res) => {
+// Posts a new book to the database. -- DONE
+router.post('/books/new', (req, res, next) => {
     Book.create(req.body).then(book => {
         res.redirect(`/books/${book.id}`);
     }).catch(error => {
@@ -46,10 +46,10 @@ router.post('/books/new', (req, res) => {
      });
 })
 // Shows book detail form. -- DONE
-router.get('/books/:id', (req, res) => {
+router.get('/books/:id', (req, res, next) => {
     Book.findByPk(req.params.id).then(book => {
         if(book) {
-          res.render("update-book", {book: book, title: book.title});  
+          res.render("update-book", {book: book, title: "Book Detail"});  
         } else {
           res.send(404);
         }
@@ -59,13 +59,26 @@ router.get('/books/:id', (req, res) => {
 
 });
 // Updates book info in the database.
-router.post('/books/:id', (req, res) => {
-    res.render(
-
-    );
+router.put('/books/:id', (req, res, next) => {
+      Book.findByPk(req.params.id).then(book => {
+        return book.update(req.body);
+      }).then(book => {
+        res.redirect(`/books/${book.id}`)
+      }).catch(error => {
+        if(error.name === "SequelizeValidationError") {
+          res.render("new-book", {
+            book: Book.build(req.body), 
+            errors: error, 
+            title: "Edit Book"})
+        } else {
+          throw error;
+        }
+    }).catch(error => {
+        res.send(500, error);
+     });
 })
 // Deletes a book. Careful, this can’t be undone. It can be helpful to create a new “test” book to test deleting.
-router.post('/books/:id/delete', (req, res) => {
+router.post('/books/:id/delete', (req, res, next) => {
     res.render(
 
     );
