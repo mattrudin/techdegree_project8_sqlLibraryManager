@@ -1,6 +1,9 @@
 extends layout.pug
 
 block content 
+  if errors
+    h2= errors.message
+
   form(action="/books/new", method="post")
     include form
     p
