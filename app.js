@@ -4,7 +4,8 @@ Require functions
 const express = require('express');
 const app = express();
 const routes = require('./routes');
-const sequelize = require('./models').sequelize
+const sequelize = require('./models').sequelize;
+const bodyParser = require('body-parser');
 
 /************************************************************************************
 Configuration
@@ -12,6 +13,7 @@ set and use functions
 ************************************************************************************/
 //Uses the public and images folder for static files
 app.use('/static', express.static('public'));
+app.use(bodyParser.urlencoded({ extended:false }));
 
 //Sets the view engine to pug
 app.set('view engine', 'pug');
