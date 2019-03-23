@@ -6,6 +6,7 @@ const app = express();
 const routes = require('./routes');
 const sequelize = require('./models').sequelize;
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override')
 
 /************************************************************************************
 Configuration
@@ -14,6 +15,7 @@ set and use functions
 //Uses the public and images folder for static files
 app.use('/static', express.static('public'));
 app.use(bodyParser.urlencoded({ extended:false }));
+app.use(methodOverride('_method'));
 
 //Sets the view engine to pug
 app.set('view engine', 'pug');
