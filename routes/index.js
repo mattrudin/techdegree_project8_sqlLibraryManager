@@ -58,7 +58,7 @@ router.get('/books/:id', (req, res, next) => {
      });
 
 });
-// Updates book info in the database.
+// Updates book info in the database. -- DONE
 router.put('/books/:id', (req, res, next) => {
       Book.findByPk(req.params.id).then(book => {
         return book.update(req.body);
@@ -77,11 +77,15 @@ router.put('/books/:id', (req, res, next) => {
         res.send(500, error);
      });
 })
-// Deletes a book. Careful, this can’t be undone. It can be helpful to create a new “test” book to test deleting.
+// Deletes a book. Careful, this can’t be undone. It can be helpful to create a new “test” book to test deleting. -- DONE
 router.post('/books/:id/delete', (req, res, next) => {
-    res.render(
-
-    );
+  Book.findByPk(req.params.id).then(book => {
+    return book.destroy();
+  }).then(() => {
+    res.redirect('/books');
+  }).catch(error => {
+    res.send(500, error);
+ });
 })
 
 
