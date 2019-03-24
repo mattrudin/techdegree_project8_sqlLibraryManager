@@ -8,12 +8,12 @@ const Book = require("../models").Book;
 /************************************************************************************
 Routes
 ************************************************************************************/
-// Home route should redirect to the /books route. -- DONE
+// Home route should redirect to the /books route
 router.get('/', (req, res, next) => {
     return res.redirect('/books');
 });
 
-// Shows the full list of books. -- DONE
+// Shows the full list of books
 router.get('/books', (req, res, next) => {
     Book.findAll({order: [['title']]}).then(books => {
         res.render('index', {books: books, title: "Books" });
@@ -21,14 +21,16 @@ router.get('/books', (req, res, next) => {
         res.status(500).send(error);
      });
 })
-// Shows the create new book form. -- DONE
+
+// Shows the create new book form
 router.get('/books/new', (req, res, next) => {
     res.render('new-book',{
         book: Book.build(),
         title: "New Book"
     })
 })
-// Posts a new book to the database. -- DONE
+
+// Posts a new book to the database
 router.post('/books/new', (req, res, next) => {
     Book.create(req.body).then(book => {
         res.redirect(`/`);
@@ -45,7 +47,8 @@ router.post('/books/new', (req, res, next) => {
         res.status(500).send(error);
      });
 })
-// Shows book detail form. -- DONE
+
+// Shows book detail form
 router.get('/books/:id', (req, res, next) => {
     Book.findByPk(req.params.id).then(book => {
         if(book) {
@@ -61,7 +64,8 @@ router.get('/books/:id', (req, res, next) => {
      });
 
 });
-// Updates book info in the database. -- DONE
+
+// Updates book info in the database
 router.put('/books/:id', (req, res, next) => {
       Book.findByPk(req.params.id).then(book => {
         return book.update(req.body);
@@ -80,7 +84,8 @@ router.put('/books/:id', (req, res, next) => {
       res.status(500).send(error);
      });
 })
-// Deletes a book. Careful, this can’t be undone. It can be helpful to create a new “test” book to test deleting. -- DONE
+
+// Deletes a book
 router.post('/books/:id/delete', (req, res, next) => {
   Book.findByPk(req.params.id).then(book => {
     return book.destroy();

@@ -14,7 +14,9 @@ set and use functions
 ************************************************************************************/
 //Uses the public and images folder for static files
 app.use('/static', express.static('public'));
+//BodyParser setup (for parsing req.body)
 app.use(bodyParser.urlencoded({ extended:false }));
+//MethodOverride setup (for adding the put method on the form submission)
 app.use(methodOverride('_method'));
 
 //Sets the view engine to pug
@@ -37,7 +39,7 @@ app.use((req, res, next) => {
     next(err);
 });
 
-//EXTRA CREDIT: Handle errors with pug template
+//Handle errors with pug template
 app.use((err, req, res, next) => {
     res.locals.error = err;
     res.status(err.status)
