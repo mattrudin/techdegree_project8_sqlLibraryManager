@@ -2,7 +2,10 @@ extends layout.pug
 
 block content 
   if errors
-    h2= errors.message
+    h2.error Oooops!
+    ul.error
+      li= errors.message.replace(/Validation error: /g,'').split(',')[0]
+      li= errors.message.replace(/Validation error: /g,'').split(',')[1]
 
   form(action="/books/new", method="post")
     p

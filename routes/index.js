@@ -18,7 +18,7 @@ router.get('/books', (req, res, next) => {
     Book.findAll({order: [['title']]}).then(books => {
         res.render('index', {books: books, title: "Books" });
       }).catch(error => {
-        res.send(500, error);
+        res.status(500).send(error);
      });
 })
 // Shows the create new book form. -- DONE
@@ -51,10 +51,13 @@ router.get('/books/:id', (req, res, next) => {
         if(book) {
           res.render("update-book", {book: book, title: "Book Detail"});  
         } else {
-          res.send(404);
+          const err = new Error('Page Not Found');
+          err.status = 404;
+          console.log(`${err}: ${err.status}`);
+          res.render('error', { title: `Book with id ${req.params.id} does not exist.`})
         }
       }).catch(error => {
-        res.send(500, error);
+        res.status(500).send(error);
      });
 
 });
@@ -74,7 +77,7 @@ router.put('/books/:id', (req, res, next) => {
           throw error;
         }
     }).catch(error => {
-        res.send(500, error);
+      res.status(500).send(error);
      });
 })
 // Deletes a book. Careful, this can’t be undone. It can be helpful to create a new “test” book to test deleting. -- DONE
@@ -84,7 +87,7 @@ router.post('/books/:id/delete', (req, res, next) => {
   }).then(() => {
     res.redirect('/books');
   }).catch(error => {
-    res.send(500, error);
+    res.status(500).send(error);
  });
 })
 
